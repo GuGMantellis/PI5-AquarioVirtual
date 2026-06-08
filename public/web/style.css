@@ -1,0 +1,1199 @@
+/* 
+  =========================================================================
+  ESTILO VISUAL: AQUÁRIO VIRTUAL - ESTILO PREMIUM E DINÂMICO
+  =========================================================================
+  
+  PASTA DE IMAGENS DOS PEIXES:
+  Você deve criar a pasta "web/images/" e colocar lá as imagens correspondentes.
+  Exemplos de nomes recomendados:
+  - web/images/neon_tetra.png (ou .jpg, .svg)
+  - web/images/acara_disco.png
+  - web/images/guppy.png
+  
+  Caso as imagens não existam fisicamente no diretório ou o link fornecido 
+  seja inválido, o código JavaScript criará automaticamente peixes coloridos 
+  e animados em 3D vetorial (usando SVG/CSS puro) nadando pelo aquário!
+*/
+
+/* --- Reset e Configurações Globais --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Outfit', sans-serif;
+}
+
+:root {
+  /* Paleta de Cores HSL Harmoniosa */
+  --bg-deep: #0a192f;
+  --bg-dark: #0f2b48;
+  --bg-light-blue: #e0f2fe;
+  
+  --primary-cyan: #06b6d4;
+  --primary-teal: #14b8a6;
+  --primary-blue: #0ea5e9;
+  
+  --glass-bg: rgba(15, 32, 67, 0.65);
+  --glass-border: rgba(6, 182, 212, 0.2);
+  --glass-border-focus: rgba(6, 182, 212, 0.6);
+  --text-light: #f8fafc;
+  --text-muted: #94a3b8;
+  --text-dark: #0f172a;
+  
+  /* Estados de Alerta */
+  --color-safe: #10b981;
+  --color-warning-cold: #3b82f6;
+  --color-warning-hot: #ef4444;
+  --glow-safe: 0 0 20px rgba(16, 185, 129, 0.4);
+  --glow-cold: 0 0 20px rgba(59, 130, 246, 0.4);
+  --glow-hot: 0 0 20px rgba(239, 68, 68, 0.4);
+  
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+  background-color: var(--bg-deep);
+  color: var(--text-light);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* --- Plano de Fundo Temático Aquático --- */
+.aquarium-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  background: linear-gradient(180deg, rgba(27, 61, 108, 0.75) 0%, rgba(7, 19, 41, 0.93) 100%), url('images/aquarium_bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+/* Efeito de Raios de Luz Subaquáticos */
+.aquarium-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 150%;
+  height: 150%;
+  background: radial-gradient(circle at 50% -20%, rgba(6, 182, 212, 0.25) 0%, rgba(10, 25, 47, 0) 50%);
+  transform: translate(-15%, -20%) rotate(-10deg);
+  pointer-events: none;
+  filter: blur(20px);
+}
+
+/* --- Animação de Bolhas de Ar --- */
+.bubbles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.bubble {
+  position: absolute;
+  bottom: -40px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  box-shadow: inset 0 2px 5px rgba(255, 255, 255, 0.3), 0 1px 3px rgba(0, 0, 0, 0.1);
+  animation: rise 12s infinite linear;
+}
+
+.bubble::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 25%;
+  height: 25%;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+}
+
+@keyframes rise {
+  0% {
+    bottom: -50px;
+    transform: translateX(0) scale(0.8);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateX(25px) scale(1.1);
+  }
+  75% {
+    transform: translateX(-15px) scale(0.9);
+  }
+  100% {
+    bottom: 105vh;
+    transform: translateX(10px) scale(1.2);
+    opacity: 0;
+  }
+}
+
+/* --- Layout da Aplicação --- */
+.app-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Header --- */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 25px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  font-size: 2rem;
+  color: var(--primary-cyan);
+  filter: drop-shadow(0 0 10px rgba(6, 182, 212, 0.6));
+  animation: logo-swim 3s ease-in-out infinite alternate;
+}
+
+@keyframes logo-swim {
+  0% { transform: translateY(-3px) rotate(-5deg); }
+  100% { transform: translateY(3px) rotate(5deg); }
+}
+
+.logo h1 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+
+.logo h1 span {
+  color: var(--primary-cyan);
+  font-weight: 300;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.connection-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.2);
+  transition: var(--transition-smooth);
+}
+
+.connection-status.online {
+  border-color: rgba(16, 185, 129, 0.3);
+  color: var(--color-safe);
+}
+
+.connection-status.offline {
+  border-color: rgba(239, 68, 68, 0.3);
+  color: var(--color-warning-hot);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.online .status-dot {
+  background-color: var(--color-safe);
+  box-shadow: 0 0 10px var(--color-safe);
+  animation: pulse-dot 1.5s infinite alternate;
+}
+
+.offline .status-dot {
+  background-color: var(--color-warning-hot);
+  box-shadow: 0 0 10px var(--color-warning-hot);
+}
+
+@keyframes pulse-dot {
+  0% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+/* --- Grid de Conteúdo --- */
+.main-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 25px;
+  flex: 1;
+}
+
+@media (max-width: 1024px) {
+  .main-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.left-column, .right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+/* --- Cartões Glassmorphic Gerais --- */
+.card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 24px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  transition: var(--transition-smooth);
+}
+
+.card:hover {
+  border-color: rgba(6, 182, 212, 0.3);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 12px;
+}
+
+.card-header h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon-accent {
+  color: var(--primary-cyan);
+}
+
+/* --- Visualizador do Aquário --- */
+.aquarium-viewport {
+  position: relative;
+  height: 380px;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 2px solid var(--primary-cyan);
+  box-shadow: 0 0 30px rgba(6, 182, 212, 0.2), inset 0 0 60px rgba(6, 182, 212, 0.4);
+  background: linear-gradient(180deg, #10b98100 0%, rgba(6, 182, 212, 0.15) 100%);
+  transition: var(--transition-smooth);
+}
+
+/* Efeito Dinâmico de Alerta Visual no Aquário */
+.aquarium-viewport.alert-cold {
+  border-color: var(--color-warning-cold);
+  box-shadow: 0 0 35px rgba(59, 130, 246, 0.4), inset 0 0 60px rgba(59, 130, 246, 0.3);
+}
+
+.aquarium-viewport.alert-hot {
+  border-color: var(--color-warning-hot);
+  box-shadow: 0 0 35px rgba(239, 68, 68, 0.4), inset 0 0 60px rgba(239, 68, 68, 0.3);
+  animation: flash-border 2s infinite alternate;
+}
+
+@keyframes flash-border {
+  0% { border-color: rgba(239, 68, 68, 0.5); }
+  100% { border-color: rgba(239, 68, 68, 1); }
+}
+
+.aquarium-water {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(30, 144, 255, 0.15) 0%, rgba(0, 0, 139, 0.3) 100%);
+  pointer-events: none;
+}
+
+/* Decorações do Aquário (Areia e Algas) */
+.aquarium-decorations {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.sand {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 25px;
+  background: linear-gradient(180deg, #2b4566 0%, #15253b 100%);
+  border-top-left-radius: 50% 10px;
+  border-top-right-radius: 50% 10px;
+  opacity: 0.9;
+}
+
+.seaweed {
+  position: absolute;
+  bottom: 20px;
+  width: 12px;
+  background: linear-gradient(0deg, #134e5e 0%, #71b280 100%);
+  border-radius: 20px 20px 0 0;
+  transform-origin: bottom center;
+  opacity: 0.75;
+}
+
+.seaweed-1 { height: 120px; left: 10%; animation: sway 6s ease-in-out infinite alternate; }
+.seaweed-2 { height: 160px; left: 14%; animation: sway 7s ease-in-out infinite alternate-reverse; width: 14px; }
+.seaweed-3 { height: 140px; right: 12%; animation: sway 5s ease-in-out infinite alternate; width: 15px; }
+.seaweed-4 { height: 90px; right: 8%; animation: sway 8s ease-in-out infinite alternate-reverse; }
+
+@keyframes sway {
+  0% { transform: skewX(-5deg) scaleY(0.95); }
+  100% { transform: skewX(5deg) scaleY(1.05); }
+}
+
+.fish-swim-area {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 25px); /* Descontar a areia */
+  z-index: 2;
+  overflow: hidden;
+}
+
+/* Badge de Temperatura no Aquário */
+.temp-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid var(--primary-cyan);
+  border-radius: 12px;
+  padding: 8px 16px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  z-index: 3;
+}
+
+.temp-badge-val {
+  text-shadow: 0 0 10px var(--primary-cyan);
+}
+
+/* --- Banner de Alerta Crítico --- */
+.alert-banner {
+  background: rgba(239, 68, 68, 0.15);
+  border: 2px solid var(--color-warning-hot);
+  border-radius: 16px;
+  padding: 16px 20px;
+  box-shadow: var(--glow-hot);
+  transition: var(--transition-smooth);
+}
+
+.alert-banner.warning-cold {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: var(--color-warning-cold);
+  box-shadow: var(--glow-cold);
+}
+
+.alert-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.alert-icon {
+  font-size: 1.8rem;
+  color: var(--color-warning-hot);
+}
+
+.warning-cold .alert-icon {
+  color: var(--color-warning-cold);
+}
+
+.alert-text h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.alert-text p {
+  font-size: 0.9rem;
+  color: #e2e8f0;
+}
+
+/* --- Painel de Status de Temperatura --- */
+.stats-panel {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 20px;
+}
+
+@media (max-width: 600px) {
+  .stats-panel {
+    grid-template-columns: 1fr;
+  }
+}
+
+.temp-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.pulse-indicator {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid var(--color-safe);
+  color: var(--color-safe);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 50px;
+  letter-spacing: 0.5px;
+  animation: pulse-opac 1.5s infinite alternate;
+}
+
+@keyframes pulse-opac {
+  0% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+.temp-display {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  margin: 15px 0;
+}
+
+.temp-value {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+.temp-unit {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--primary-cyan);
+  margin-left: 5px;
+}
+
+.temp-info-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 15px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.info-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.info-value {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.status-tag {
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.status-neutral { background: rgba(255, 255, 255, 0.1); color: var(--text-light); }
+.status-safe { background: rgba(16, 185, 129, 0.15); color: var(--color-safe); border: 1px solid var(--color-safe); }
+.status-cold { background: rgba(59, 130, 246, 0.15); color: var(--color-warning-cold); border: 1px solid var(--color-warning-cold); }
+.status-hot { background: rgba(239, 68, 68, 0.15); color: var(--color-warning-hot); border: 1px solid var(--color-warning-hot); }
+
+/* --- Barra de Faixa de Temperatura --- */
+.range-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.range-display {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 10px 0;
+}
+
+.range-limits {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.limit-box {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 10px 14px;
+  border-radius: 12px;
+  flex: 1;
+  text-align: center;
+}
+
+.limit-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.limit-val {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary-cyan);
+}
+
+.range-arrow {
+  color: var(--text-muted);
+  margin: 0 10px;
+  font-size: 1rem;
+}
+
+/* Medidor Linear de Temperatura */
+.progress-bar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.progress-bar-track {
+  height: 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  overflow: visible;
+}
+
+.safe-range-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-blue) 0%, var(--primary-teal) 100%);
+  border-radius: 10px;
+  position: absolute;
+  box-shadow: 0 0 10px rgba(20, 184, 166, 0.4);
+  transition: var(--transition-smooth);
+}
+
+.temp-pointer {
+  width: 16px;
+  height: 16px;
+  background: var(--text-light);
+  border: 3px solid var(--primary-cyan);
+  border-radius: 50%;
+  position: absolute;
+  top: -3px;
+  transform: translateX(-50%);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+  transition: left 0.5s ease-in-out;
+  z-index: 5;
+}
+
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.range-description {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* --- Lista de Peixes e Cards --- */
+.fish-list-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.fish-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+  max-height: 520px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+
+.fish-grid::-webkit-scrollbar {
+  width: 6px;
+}
+
+.fish-grid::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.fish-grid::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+}
+
+.empty-icon {
+  font-size: 3.5rem;
+  color: rgba(255, 255, 255, 0.05);
+  margin-bottom: 15px;
+  animation: pulse-opac 2s infinite alternate;
+}
+
+.empty-state p {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+.empty-state .sub-text {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+/* Card Individual do Peixe */
+.fish-card {
+  display: flex;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 16px;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition-smooth);
+}
+
+.fish-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(6, 182, 212, 0.15);
+  transform: translateY(-2px);
+}
+
+.fish-img-container {
+  width: 100px;
+  height: 100px;
+  border-radius: 12px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fish-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--transition-smooth);
+}
+
+/* Estilo para peixe vetorial (caso não haja foto) */
+.fish-vector-avatar {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.2) 0%, rgba(0, 0, 0, 0) 70%);
+}
+
+.fish-vector-avatar svg {
+  width: 70px;
+  height: 70px;
+}
+
+.fish-card:hover .fish-img {
+  transform: scale(1.1);
+}
+
+.fish-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.fish-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.fish-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-light);
+  margin-bottom: 2px;
+}
+
+.fish-origin {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.fish-stats {
+  display: flex;
+  gap: 15px;
+  margin: 10px 0;
+}
+
+.stat-badge {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.stat-badge i {
+  color: var(--primary-cyan);
+}
+
+.fish-curiosity {
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: #cbd5e1;
+  font-style: italic;
+  background: rgba(0, 0, 0, 0.15);
+  padding: 6px 10px;
+  border-radius: 8px;
+  border-left: 2px solid var(--primary-cyan);
+}
+/* Switch Toggle de Ativação do Peixe */
+.switch-container {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.switch-label {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: var(--transition-smooth);
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: var(--transition-smooth);
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 3px;
+  bottom: 3px;
+  background-color: var(--text-muted);
+  transition: var(--transition-smooth);
+  border-radius: 50%;
+}
+
+.switch input:checked + .slider {
+  background-color: rgba(6, 182, 212, 0.2);
+  border-color: var(--primary-cyan);
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(22px);
+  background-color: var(--primary-cyan);
+  box-shadow: 0 0 8px var(--primary-cyan);
+}
+
+.switch-container:hover .slider {
+  border-color: rgba(6, 182, 212, 0.4);
+}
+
+/* --- Botões e Elementos Interativos --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: var(--transition-smooth);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary-cyan) 0%, var(--primary-blue) 100%);
+  color: var(--bg-deep);
+  box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
+  filter: brightness(1.1);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--text-light);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.btn-icon {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  color: var(--text-light);
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  padding: 0;
+}
+
+.btn-icon:hover {
+  background: rgba(6, 182, 212, 0.15);
+  border-color: rgba(6, 182, 212, 0.3);
+  color: var(--primary-cyan);
+  transform: rotate(30deg);
+}
+
+/* --- Modais e Formulários --- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  background: rgba(10, 25, 47, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  transition: opacity 0.3s ease;
+}
+
+.modal-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 580px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border-focus);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(6, 182, 212, 0.1);
+  border-radius: 24px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  overflow: hidden;
+  animation: modal-enter 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modal-enter {
+  0% { transform: scale(0.9) translateY(20px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.modal-header h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.modal-header h2 i {
+  color: var(--primary-cyan);
+}
+
+.btn-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.btn-close:hover {
+  color: var(--text-light);
+}
+
+.modal-body {
+  padding: 24px;
+}
+
+.modal-instructions {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin-bottom: 20px;
+}
+
+/* --- Elementos de Formulário --- */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+@media (max-width: 500px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-light);
+}
+
+.form-group input, 
+.form-group select,
+.form-group textarea {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 16px;
+  border-radius: 12px;
+  color: var(--text-light);
+  font-size: 0.9rem;
+  transition: var(--transition-smooth);
+}
+
+/* Garante estilo de fundo escuro para as opções do select no Windows/Chrome */
+.form-group select option {
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+}
+
+.form-group input::placeholder, 
+.form-group textarea::placeholder {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.form-group input:focus, 
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary-cyan);
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.25);
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.fish-preview-box {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px dashed rgba(6, 182, 212, 0.3);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: var(--transition-smooth);
+}
+
+.preview-header h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--primary-cyan);
+}
+
+.preview-stats {
+  display: flex;
+  gap: 15px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.preview-stats span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.preview-curiosity {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-style: italic;
+  line-height: 1.3;
+}
+
+.form-help {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: -2px;
+}
+
+.form-help code {
+  color: var(--primary-cyan);
+  background: rgba(0, 0, 0, 0.2);
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 20px;
+  margin-top: 10px;
+}
+
+/* --- Peixes Animados Nadando no Aquário (CSS Puro & SVG) --- */
+.animated-fish {
+  position: absolute;
+  width: 90px;
+  height: 50px;
+  pointer-events: none;
+  transition: transform 1.2s ease-in-out, top 1.8s ease-in-out, left 1.8s ease-in-out;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.fish-body-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Animação de wiggle (cauda abanando) */
+.fish-svg {
+  width: 100%;
+  height: 100%;
+  animation: fish-wiggle 0.8s ease-in-out infinite alternate;
+  transform-origin: center center;
+}
+
+@keyframes fish-wiggle {
+  0% { transform: skewY(-2deg) scaleY(0.98); }
+  100% { transform: skewY(2deg) scaleY(1.02); }
+}
+
+/* Classe utilitária para esconder elementos via JS */
+.hidden {
+  display: none !important;
+}

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aquário Virtual - Monitoramento IoT de Temperatura</title>
+  <!-- Google Fonts: Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Vanilla CSS Style -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background Water & Bubbles Container -->
+  <div class="aquarium-bg" id="aquariumBg">
+    <div class="bubbles" id="bubblesContainer"></div>
+  </div>
+
+  <!-- Main Layout -->
+  <div class="app-container">
+    
+    <!-- Top Header -->
+    <header class="app-header">
+      <div class="logo">
+        <i class="fa-solid fa-fish-fins logo-icon"></i>
+        <h1>Aquário<span>Virtual</span></h1>
+      </div>
+      <div class="header-actions">
+        <span class="connection-status offline" id="connectionStatus">
+          <span class="status-dot"></span> <span class="status-text">Desconectado do ESP32</span>
+        </span>
+        <button class="btn btn-icon" id="btnSettings" title="Configurar Firebase">
+          <i class="fa-solid fa-gear"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="main-grid">
+      
+      <!-- Left Column: Aquarium Simulator & Real-time Info -->
+      <section class="left-column">
+        <!-- Interactive Aquarium Viewport -->
+        <div class="aquarium-viewport" id="aquariumViewport">
+          <div class="aquarium-water"></div>
+          <div class="aquarium-decorations">
+            <div class="sand"></div>
+            <div class="seaweed seaweed-1"></div>
+            <div class="seaweed seaweed-2"></div>
+            <div class="seaweed seaweed-3"></div>
+            <div class="seaweed seaweed-4"></div>
+          </div>
+          <!-- Fish swim inside this container -->
+          <div class="fish-swim-area" id="fishSwimArea"></div>
+          
+          <!-- Quick Temperature Badge on Aquarium -->
+          <div class="temp-badge" id="tempBadge">
+            <span class="temp-badge-val">--.-</span>°C
+          </div>
+        </div>
+
+        <!-- Temperature Alert Banner (Shown when out of safe limits) -->
+        <div class="alert-banner hidden" id="alertBanner">
+          <div class="alert-content">
+            <i class="fa-solid fa-triangle-exclamation alert-icon animated pulse infinite"></i>
+            <div class="alert-text">
+              <h3 id="alertTitle">Alerta de Temperatura!</h3>
+              <p id="alertDescription">A temperatura atual está fora da faixa segura de sobrevivência dos peixes cadastrados.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats Dashboard -->
+        <div class="stats-panel">
+          <!-- Real-Time Temperature Meter -->
+          <div class="card temp-card" id="tempCard">
+            <div class="card-header">
+              <h2>Temperatura em Tempo Real</h2>
+              <span class="pulse-indicator">LIVE</span>
+            </div>
+            <div class="temp-display">
+              <span class="temp-value" id="currentTemp">--.-</span>
+              <span class="temp-unit">°C</span>
+            </div>
+            <div class="temp-info-row">
+              <div class="info-item">
+                <span class="info-label">Estado</span>
+                <span class="info-value status-tag status-neutral" id="tempStatus">Carregando...</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Última Atualização</span>
+                <span class="info-value" id="lastUpdated">--:--:--</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Safe Range Calculator -->
+          <div class="card range-card" id="rangeCard">
+            <div class="card-header">
+              <h2>Faixa de Temperatura Saudável</h2>
+              <i class="fa-solid fa-heart-pulse icon-accent"></i>
+            </div>
+            <div class="range-display">
+              <div class="range-limits">
+                <div class="limit-box">
+                  <span class="limit-label">Mínimo Saudável</span>
+                  <span class="limit-val" id="minSafeTemp">--.-°C</span>
+                </div>
+                <div class="range-arrow"><i class="fa-solid fa-arrow-right-arrow-left"></i></div>
+                <div class="limit-box">
+                  <span class="limit-label">Máximo Saudável</span>
+                  <span class="limit-val" id="maxSafeTemp">--.-°C</span>
+                </div>
+              </div>
+              <div class="progress-bar-container">
+                <div class="progress-bar-track">
+                  <div class="safe-range-bar" id="safeRangeBar" style="left: 0%; width: 100%;"></div>
+                  <div class="temp-pointer" id="tempPointer" style="left: 50%;"></div>
+                </div>
+                <div class="progress-labels">
+                  <span>0°C</span>
+                  <span>15°C</span>
+                  <span>25°C</span>
+                  <span>35°C</span>
+                  <span>45°C</span>
+                </div>
+              </div>
+            </div>
+            <p class="range-description" id="rangeDescription">Adicione peixes para calcular a faixa ideal de convivência mútua.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Registered Fish & Registration Form -->
+      <section class="right-column">
+        <div class="card fish-list-card">
+          <div class="card-header">
+            <h2>Nossos Peixes</h2>
+          </div>
+          
+          <div class="fish-grid" id="fishGrid">
+            <!-- Fish Cards will be loaded here dynamically -->
+            <div class="empty-state" id="emptyState">
+              <i class="fa-solid fa-fish empty-icon"></i>
+              <p>Nenhum peixe cadastrado.</p>
+              <p class="sub-text">Cadastre seus peixes para começar a monitorar a compatibilidade de temperatura.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Settings Modal (Firebase Config) -->
+  <div class="modal-overlay hidden" id="settingsModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2><i class="fa-solid fa-gears"></i> Configurações do Firebase</h2>
+        <button class="btn-close" id="btnCloseSettings">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-instructions">
+          Insira as credenciais do seu projeto Firebase Realtime Database para conectar o site ao seu ESP32.
+          Os dados ficam armazenados de forma segura apenas no seu navegador.
+        </p>
+        <form id="firebaseConfigForm">
+          <div class="form-group">
+            <label for="fbApiKey">API Key</label>
+            <input type="text" id="fbApiKey" required placeholder="Ex: AIzaSyA1b2c3d4...">
+          </div>
+          <div class="form-group">
+            <label for="fbAuthDomain">Auth Domain</label>
+            <input type="text" id="fbAuthDomain" required placeholder="Ex: seu-projeto.firebaseapp.com">
+          </div>
+          <div class="form-group">
+            <label for="fbDatabaseUrl">Database URL (Realtime)</label>
+            <input type="url" id="fbDatabaseUrl" required placeholder="Ex: https://seu-projeto-default-rtdb.firebaseio.com/">
+          </div>
+          <div class="form-group">
+            <label for="fbProjectId">Project ID</label>
+            <input type="text" id="fbProjectId" required placeholder="Ex: seu-projeto">
+          </div>
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" id="btnResetFirebase">Restaurar Padrão</button>
+            <button type="submit" class="btn btn-primary">Salvar e Conectar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Firebase Scripts from CDN -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
+  <!-- Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
