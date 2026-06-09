@@ -1,0 +1,32 @@
+name: Basic Checks
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        
+    # Exemplo genérico - ajuste conforme o gerenciador de pacotes da pasta software/dashboard
+    # - name: Install dependencies
+    #   run: |
+    #     cd software/dashboard
+    #     npm install
+    #
+    # - name: Run tests
+    #   run: |
+    #     cd software/dashboard
+    #     npm test
+        
+    - name: Lint Firmware Check (placeholder)
+      run: echo "Verificando arquivos do firmware em firmware/src..."

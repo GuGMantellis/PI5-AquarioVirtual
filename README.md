@@ -1,39 +1,28 @@
-# PI5 - Aquário Virtual
+# Aquário Virtual (PI5)
 
-Projeto de Aquário Virtual estruturado seguindo o padrão completo de desenvolvimento Full-Stack com Frontend e Backend separados.
+Bem-vindo ao repositório do projeto **Aquário Virtual** (Projeto Integrador 5).
+Este projeto visa desenvolver um sistema IoT para monitoramento e controle de um aquário, integrando hardware e software em uma plataforma unificada.
 
-## 🧠 A Lógica das Pastas e Arquivos
+## 📁 Estrutura do Projeto
 
-### 1. Raiz do Projeto (`/`)
-- `.gitignore`: Diz ao Git quais arquivos ele deve ignorar (como senhas e a pasta node_modules).
-- `README.md`: O manual de instruções do projeto. Diz como rodar a aplicação.
-- `firebase.json` e `.firebaserc`: Configurações de Deploy e Hosting do ecossistema Firebase.
-- `aquarium_firmware/`: Código fonte C++ do microcontrolador do aquário.
+* `docs/`: Documentação geral, especificações e relatórios.
+* `firmware/`: Código fonte para o microcontrolador (ESP32/Arduino).
+* `hardware/`: Esquemas eletrônicos e lista de materiais.
+* `software/`: Código fonte do dashboard web/mobile e serviços backend.
+* `tests/`: Planos de testes e resultados das validações.
+* `diagrams/`: Diagramas de arquitetura e casos de uso.
+* `slides/`: Apresentações e pitchs do projeto.
 
-### 2. O Backend (`/backend`) — O Cérebro e Banco de Dados
-Aqui fica a lógica de negócios, segurança e a comunicação com o banco de dados.
+## 🚀 Como Começar
 
-- `src/`: Abreviação de Source (Código-fonte). Tudo que você escreve fica aqui dentro.
-  - `config/`: Configurações de ferramentas externas.
-  - `controllers/`: Os tomadores de decisão (recebem requisição, processam com o Model e devolvem resposta).
-  - `models/`: A estrutura dos dados. Contém o arquivo `firebase_structure.json` definindo como o Realtime Database é organizado.
-  - `routes/`: Os caminhos da API.
-  - `middlewares/`: Os porteiros (funções que rodam antes de chegar no controller).
-  - `app.js`: O ponto de partida do servidor backend.
-- `.env`: Arquivo de variáveis de ambiente.
-- `package.json`: Dependências do Backend.
+1. Consulte o [Manual de Instalação](docs/08-documentacao/instalacao.md) para configurar o ambiente.
+2. Veja as instruções em `firmware/` para gravar o código no microcontrolador.
+3. Para iniciar o dashboard, verifique as instruções em `software/dashboard/`.
 
-### 3. O Frontend (`/frontend`) — A Interface Visual
-Aqui fica tudo o que o usuário final vê e interage na tela.
+## 🤝 Contribuindo
 
-- `public/`: Arquivos estáticos que não mudam e que o navegador acessa diretamente. Aqui estão os arquivos `index.html` e `404.html`.
-- `src/`: O código vivo do front.
-  - `assets/`: Imagens, logos, fontes e vídeos. Suas imagens de peixes estão dentro da subpasta `images/`.
-  - `components/`: Pedaços reutilizáveis de interface.
-  - `pages/`: As telas completas.
-  - `services/`: A ponte com o backend.
-  - `styles/`: Arquivos de estilização global, como o `style.css`.
-  - `App.js`: Componente raiz.
-  - `main.js`: Arquivo principal JavaScript do site antigo.
-- `package.json`: Dependências do Frontend.
-- `vite.config.js`: Configurações do Vite.
+Por favor, leia o arquivo [CONTRIBUTING.md](CONTRIBUTING.md) para detalhes sobre o nosso código de conduta e o processo para submeter pull requests para nós.
+
+## 📄 Licença
+
+Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
