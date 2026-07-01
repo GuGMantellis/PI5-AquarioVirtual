@@ -1,0 +1,75 @@
+{
+  "aquarium": {
+    "temperature": 25.5,
+    "last_updated": 1782084359,
+    "fish": {
+      "active_fish_1": {
+        "speciesId": "neon_tetra",
+        "name": "Neon Tetra",
+        "minTemp": 22,
+        "maxTemp": 26,
+        "ph": 6.5,
+        "origin": "Bacia Amazônica, América do Sul",
+        "curiosity": "Eles adoram viver em cardumes e brilham intensamente sob luz fraca para se manterem unidos.",
+        "image": "images/neon_tetra.png"
+      },
+      "active_fish_2": {
+        "speciesId": "guppy",
+        "name": "Guppy (Lebiste)",
+        "minTemp": 22,
+        "maxTemp": 28,
+        "ph": 7.2,
+        "origin": "América Central e do Sul",
+        "curiosity": "São peixes extremamente ativos, adaptáveis e fáceis de reproduzir no aquário.",
+        "image": "images/guppy.png"
+      }
+    }
+  },
+  "species": {
+    "neon_tetra": {
+      "name": "Neon Tetra",
+      "minTemp": 22,
+      "maxTemp": 26,
+      "ph": 6.5,
+      "origin": "Bacia Amazônica, América do Sul",
+      "curiosity": "Eles adoram viver em cardumes e brilham intensamente sob luz fraca para se manterem unidos.",
+      "image": "images/neon_tetra.png"
+    },
+    "acara_disco": {
+      "name": "Acará-Disco",
+      "minTemp": 26,
+      "maxTemp": 30,
+      "ph": 6.0,
+      "origin": "Rio Amazonas, América do Sul",
+      "curiosity": "Conhecidos como os 'reis do aquário' devido ao seu comportamento elegante e cores vibrantes.",
+      "image": "images/acara_disco.png"
+    },
+    "guppy": {
+      "name": "Guppy (Lebiste)",
+      "minTemp": 22,
+      "maxTemp": 28,
+      "ph": 7.2,
+      "origin": "América Central e do Sul",
+      "curiosity": "São peixes extremamente ativos, adaptáveis e fáceis de reproduzir no aquário.",
+      "image": "images/guppy.png"
+    },
+    "peixe_palhaco": {
+      "name": "Peixe Palhaço",
+      "minTemp": 24,
+      "maxTemp": 28,
+      "ph": 8.2,
+      "origin": "Recife de Coral, Indo-Pacífico",
+      "curiosity": "Todos os peixes-palhaço nascem machos e têm a capacidade de mudar seu sexo para fêmea.",
+      "image": "images/peixe_palhaco.png"
+    },
+    "kinguio": {
+      "name": "Kinguio (Peixinho Dourado)",
+      "minTemp": 18,
+      "maxTemp": 24,
+      "ph": 7.4,
+      "origin": "Ásia Oriental",
+      "curiosity": "Eles têm uma memória excelente que pode durar meses, contrariando o mito dos 3 segundos.",
+      "image": "images/kinguio.png"
+    }
+  }
+}

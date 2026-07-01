@@ -1,0 +1,4 @@
+ID_Teste,Cenario,Data_Execucao,Responsavel,Status,Observacao
+CT01,Leitura_Temp_Ambiente,,[Seu Nome],Pendente,Aguardando entrega do sensor
+CT02,Acionamento_Rele_Dashboard,,[Seu Nome],Pendente,
+CT03,Falha_Conexao_WiFi,,[Seu Nome],Pendente,Verificar reconexão automática
