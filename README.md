@@ -14,15 +14,6 @@
 
 ---
 
-## 📸 Preview do Sistema
-
-<div align="center">
-  <img src="docs/assets/dashboard_preview.png" alt="SmartTank Dashboard Preview" width="90%"/>
-  <br/>
-  <em>Dashboard em tempo real — monitoramento de temperatura, pH e turbidez</em>
-</div>
-
----
 
 ## 📋 O que é o SmartTank?
 
