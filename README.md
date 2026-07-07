@@ -25,6 +25,10 @@
 > **[👉 Acesse o Dashboard em Tempo Real](https://aquariovirtual-3caae.web.app/)**  
 > Monitoramento de temperatura, pH e peixes — conectado ao Firebase 24/7
 
+<img src="docs/assets/dashboard_preview.png" alt="SmartTank Dashboard — Temperatura, pH e monitoramento em tempo real" width="90%"/>
+
+<em>Dashboard real — temperatura 25.5°C, pH 7.2 (Neutro), peixes com fotos reais via Firebase</em>
+
 </div>
 
 ---
