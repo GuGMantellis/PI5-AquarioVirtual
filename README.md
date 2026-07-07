@@ -10,10 +10,24 @@
 [![Status](https://img.shields.io/badge/Status-Completo-4CAF50?style=for-the-badge)](https://github.com/GuGMantellis/PI5-AquarioVirtual)
 [![FATEC](https://img.shields.io/badge/FATEC-Bebedouro-0d47a1?style=for-the-badge)](https://www.fatecbebedouro.edu.br/)
 
+<br/>
+
+[![🌐 Ver Dashboard ao Vivo](https://img.shields.io/badge/🌐_Dashboard_ao_Vivo-aquariovirtual--3caae.web.app-06b6d4?style=for-the-badge)](https://aquariovirtual-3caae.web.app/)
+
 </div>
 
 ---
 
+## 🌐 Demo ao Vivo
+
+<div align="center">
+
+> **[👉 Acesse o Dashboard em Tempo Real](https://aquariovirtual-3caae.web.app/)**  
+> Monitoramento de temperatura, pH e peixes — conectado ao Firebase 24/7
+
+</div>
+
+---
 
 ## 📋 O que é o SmartTank?
 

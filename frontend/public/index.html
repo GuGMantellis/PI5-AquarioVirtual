@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aquário Virtual - Monitoramento IoT de Temperatura</title>
+  <title>Aquário Virtual - Monitoramento IoT de Temperatura e pH</title>
   <!-- Google Fonts: Outfit -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -61,6 +61,9 @@
           <div class="temp-badge" id="tempBadge">
             <span class="temp-badge-val">--.-</span>°C
           </div>
+          <div class="ph-badge" id="phBadge">
+            <i class="fa-solid fa-flask-vial"></i> pH <span class="ph-badge-val" id="phBadgeVal">-.-</span>
+          </div>
         </div>
 
         <!-- Temperature Alert Banner (Shown when out of safe limits) -->
@@ -94,6 +97,28 @@
               <div class="info-item">
                 <span class="info-label">Última Atualização</span>
                 <span class="info-value" id="lastUpdated">--:--:--</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Real-Time pH Meter -->
+          <div class="card ph-card" id="phCard">
+            <div class="card-header">
+              <h2><i class="fa-solid fa-flask-vial icon-accent"></i> pH da Água</h2>
+              <span class="pulse-indicator">LIVE</span>
+            </div>
+            <div class="ph-display">
+              <span class="ph-value" id="currentPh">-.-</span>
+              <span class="ph-unit">pH</span>
+            </div>
+            <div class="temp-info-row">
+              <div class="info-item">
+                <span class="info-label">Estado</span>
+                <span class="info-value status-tag status-neutral" id="phStatus">Carregando...</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Faixa Ideal</span>
+                <span class="info-value">6.5 – 8.0</span>
               </div>
             </div>
           </div>
